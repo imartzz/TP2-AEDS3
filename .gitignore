@@ -1,0 +1,13 @@
+# Arquivos compilados
+*.class
+
+# Pasta de dados gerada em runtime
+dados/
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# macOS
+.DS_Store
