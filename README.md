@@ -37,6 +37,25 @@ No **TP2**, o sistema foi expandido para permitir a interação completa entre a
 
 ---
 
+## Funcionalidades em desenvolvimento
+
+As seguintes funcionalidades e métodos estão com estrutura pronta e marcações `// implementar`, aguardando a finalização da implementação:
+
+1. **Entidade e Persistência de Avaliações:**
+   - `entidades/Avaliacao.java`: serialização e desserialização binária em bytes (`serialize()` e `deserialize()`).
+   - `entidades/ArquivoAvaliacao.java`: vinculação nas duas Árvores B+ (`relUsuarioAvaliacao` e `relRespostaAvaliacao`) nas operações de inclusão, consulta por usuário e exclusão.
+
+2. **Regras de Negócio e Controle de Votos:**
+   - `controle/ControleAvaliacao.java`:
+     - Validação para impedir auto-voto (votar na própria resposta) e votos duplicados pelo mesmo usuário.
+     - Registro da avaliação com ajuste atômico de `nota` (+1 ou -1) e incremento de `avaliacoes` na entidade `Resposta`.
+     - Cancelamento de avaliação com estorno da pontuação na resposta e remoção do registro.
+
+3. **Interface de Minhas Avaliações:**
+   - `visao/VisaoMinhasAvaliacoes.java`: exibição dos votos realizados pelo usuário na área pessoal e fluxo de cancelamento de voto.
+
+---
+
 ## Como compilar e executar
 
 ```bash
