@@ -6,6 +6,7 @@ import controle.ControleResposta;
 import controle.ControleUsuario;
 import java.util.Scanner;
 
+// menu principal: navegação entre Minha Área e Busca de perguntas
 public class VisaoMenuPrincipal {
 
     private final Scanner          scanner;

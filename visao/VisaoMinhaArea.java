@@ -6,6 +6,7 @@ import controle.ControleResposta;
 import controle.ControleUsuario;
 import java.util.Scanner;
 
+// submenu da área pessoal: dados cadastrais, perguntas, respostas e avaliações
 public class VisaoMinhaArea {
 
     private final Scanner          scanner;

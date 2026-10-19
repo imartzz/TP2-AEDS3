@@ -7,6 +7,7 @@ import visao.VisaoMenuPrincipal;
 import java.io.File;
 import java.util.Scanner;
 
+// ponto de entrada: inicializa pastas de dados, controles e telas
 public class Principal {
 
     public static void main(String[] args) {
@@ -51,6 +52,7 @@ public class Principal {
             System.err.println("Erro fatal ao iniciar o sistema: " + e.getMessage());
             e.printStackTrace();
         } finally {
+            // fecha com segurança os arquivos binários abertos na execução
             try { if (controleUsuario   != null) controleUsuario.close();   } catch (Exception ignored) {}
             try { if (controlePergunta  != null) controlePergunta.close();  } catch (Exception ignored) {}
             try { if (controleResposta  != null) controleResposta.close();  } catch (Exception ignored) {}

@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// tela de Minhas Respostas: lista respostas do usuário e permite arquivamento
 public class VisaoMinhasRespostas {
 
     private final Scanner          scanner;

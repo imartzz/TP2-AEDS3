@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
+// entidade de resposta que conecta Usuario e Pergunta (relacionamento N:N)
 public class Resposta implements InterfaceRegistro {
 
     private int     id;
@@ -57,6 +58,7 @@ public class Resposta implements InterfaceRegistro {
     public boolean isAtiva()                    { return ativa; }
     public void    setAtiva(boolean ativa)      { this.ativa = ativa; }
 
+    // serialização binária para o CRUD genérico
     @Override
     public byte[] serialize() throws Exception {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,6 +76,7 @@ public class Resposta implements InterfaceRegistro {
         return baos.toByteArray();
     }
 
+    // desserialização a partir do fluxo de bytes lidos do disco
     @Override
     public void deserialize(byte[] data) throws Exception {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);

@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// gestão de perguntas do usuário com listagem de respostas recebidas e moderação
 public class VisaoPerguntas {
 
     private final Scanner          scanner;
@@ -231,9 +232,9 @@ public class VisaoPerguntas {
         String palavras = scanner.nextLine().trim();
 
         try {
-            int id = controlePergunta.criar(
+            controlePergunta.criar(
                 controleUsuario.getUsuarioAtivo().getId(), texto, palavras);
-            System.out.println("Pergunta incluída com sucesso! ID interno: " + id);
+            System.out.println("Pergunta incluída com sucesso!");
         } catch (Exception e) {
             System.out.println("Erro ao incluir pergunta: " + e.getMessage());
         }
