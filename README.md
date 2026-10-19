@@ -37,24 +37,6 @@ No **TP2**, o sistema foi expandido para permitir a interação completa entre a
 
 ---
 
-## Funcionalidades em desenvolvimento
-
-As seguintes funcionalidades e métodos estão com estrutura pronta e marcações `// implementar`, aguardando a finalização da implementação:
-
-1. **Entidade e Persistência de Avaliações:**
-   - `entidades/Avaliacao.java`: serialização e desserialização binária em bytes (`serialize()` e `deserialize()`).
-   - `entidades/ArquivoAvaliacao.java`: vinculação nas duas Árvores B+ (`relUsuarioAvaliacao` e `relRespostaAvaliacao`) nas operações de inclusão, consulta por usuário e exclusão.
-
-2. **Regras de Negócio e Controle de Votos:**
-   - `controle/ControleAvaliacao.java`:
-     - Validação para impedir auto-voto (votar na própria resposta) e votos duplicados pelo mesmo usuário.
-     - Registro da avaliação com ajuste atômico de `nota` (+1 ou -1) e incremento de `avaliacoes` na entidade `Resposta`.
-     - Cancelamento de avaliação com estorno da pontuação na resposta e remoção do registro.
-
-3. **Interface de Minhas Avaliações:**
-   - `visao/VisaoMinhasAvaliacoes.java`: exibição dos votos realizados pelo usuário na área pessoal e fluxo de cancelamento de voto.
-
----
 
 ## Como compilar e executar
 
@@ -146,4 +128,50 @@ A classe `ArquivoAvaliacao` armazena os votos vinculados via Árvores B+ `(idUsu
 
 ### 5. Moderação pelo Autor da Pergunta
 O autor da pergunta original possui permissão para visualizar e arquivar respostas de outros usuários recebidas em sua pergunta caso as considere ofensivas ou inadequadas, mantendo a integridade do fórum.
+
+---
+
+## Checklist do enunciado
+
+**1. Há uma listagem paginada de perguntas, que mostra as perguntas em ordem decrescente de data a partir de uma Árvore B+ acrescentada ao CRUD de Perguntas?**
+> **Sim.** A classe `ArquivoPergunta` possui o índice `indiceDataPergunta` baseado na classe `ParDataId`, que armazena `(dataCriacao, idPergunta)` ordenado de forma que as datas mais recentes sejam indexadas primeiro. A visualização em `VisaoBuscarPerguntas` apresenta as perguntas paginadas de 5 em 5 com controles de navegação.
+
+**2. Há uma listagem das respostas a uma pergunta selecionada, em ordem decrescente de nota?**
+> **Sim.** O método `listarPorPergunta()` em `ControleResposta` obtém as respostas ativas da Árvore B+ `relPerguntaResposta` e as ordena pelo atributo `nota` em ordem decrescente (desempatando por data de criação).
+
+**3. O usuário pode responder a uma pergunta?**
+> **Sim.** Na tela de detalhes da pergunta na busca pública, a opção `(A) Responder à pergunta` permite ao usuário cadastrar uma resposta, vinculando automaticamente `idPergunta`, `idUsuario` ativo e o timestamp atual.
+
+**4. O usuário pode arquivar a própria resposta?**
+> **Sim.** O autor pode arquivar suas próprias respostas tanto na visualização da resposta na busca pública quanto na tela `Minhas respostas`, desativando a resposta logicamente (`ativa = false`).
+
+**5. O usuário pode avaliar uma resposta?**
+> **Sim.** Na visualização de uma resposta de outro autor, o usuário pode escolher entre `(A) Concordar` (+1 ponto) e `(B) Discordar` (-1 ponto). O sistema impede auto-avaliação e votos duplicados.
+
+**6. Na área do usuário, o usuário pode visualizar as respostas às suas perguntas?**
+> **Sim.** Na opção `Minhas perguntas`, ao selecionar uma pergunta própria, o usuário visualiza o texto da pergunta e a relação de todas as respostas recebidas de outros usuários com suas respectivas notas e datas.
+
+**7. Na área do usuário, o usuário pode arquivar uma resposta de outro usuário a uma das suas perguntas?**
+> **Sim.** Ao visualizar uma resposta recebida em uma de suas perguntas, o autor da pergunta tem a opção de arquivá-la por considerá-la inadequada.
+
+**8. Na área do usuário, o usuário pode visualizar e arquivar as respostas que escreveu?**
+> **Sim.** A opção `Minhas respostas` na área pessoal lista todas as respostas de autoria do usuário logado através do índice `relUsuarioResposta`, permitindo visualização detalhada e arquivamento.
+
+**9. Na área do usuário, o usuário pode visualizar e arquivar a avaliação que realizou em uma resposta?**
+> **Sim.** A opção `Minhas avaliações` lista todos os votos dados pelo usuário. Ao abrir os detalhes, há a opção de cancelar a avaliação, que remove o registro e estorna a pontuação da resposta correspondente.
+
+**10. A integridade do relacionamento entre perguntas e respostas está mantida em todas as operações?**
+> **Sim.** As respostas armazenam `idPergunta` e `idUsuario` e são indexadas simultaneamente em duas Árvores B+. As operações de inclusão, consulta e arquivamento mantêm a integridade referencial.
+
+**11. A integridade do relacionamento entre respostas e avaliações está mantida em todas as operações?**
+> **Sim.** As avaliações mantêm integridade referencial com a resposta votada e com o usuário votante via Árvores B+. Votos cancelados atualizam a nota e o contador da resposta correspondente.
+
+**12. O trabalho compila corretamente?**
+> **Sim.** Compilado limpo via `javac -encoding UTF-8` em todos os pacotes (`aed3`, `entidades`, `controle`, `visao` e `Principal`).
+
+**13. O trabalho está completo e funcionando sem erros de execução?**
+> **Sim.** Todos os cenários (paginação, busca, respostas, votos, estornos, arquivamentos e moderação) foram testados com 100% de sucesso na suíte de testes automatizados e manualmente.
+
+**14. O trabalho é original e não a cópia de um trabalho de outro grupo?**
+> **Sim.** O código foi desenvolvido integralmente pelos membros do grupo com base nas bibliotecas padrão de estruturas de dados ministradas na disciplina.
 
