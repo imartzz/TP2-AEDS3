@@ -2,6 +2,8 @@ package controle;
 
 import entidades.ArquivoAvaliacao;
 import entidades.Avaliacao;
+import entidades.Resposta;
+
 import java.util.ArrayList;
 
 public class ControleAvaliacao {
@@ -14,24 +16,34 @@ public class ControleAvaliacao {
         this.controleResposta = controleResposta;
     }
 
-    // implementar
     public boolean avaliar(int idUsuario, int idResposta, boolean concorda) throws Exception {
-        throw new UnsupportedOperationException("Implementar registro de avaliação e atualização de nota");
+        Resposta r = controleResposta.buscarPorId(idResposta);
+        if( r == null || !r.isAtiva()) return false;
+        if( r.getIdUsuario() == idUsuario) return false;
+        if( jaAvaliou(idUsuario, idResposta)) return false;
+
+        Avaliacao a = new Avaliacao(-1, idUsuario, idResposta, concorda);
+        arqAvaliacao.create(a);
+        controleResposta.atualizarNotaEAvaliacoes(idResposta, (concorda? 1 : -1), 1);
+        return true;
     }
 
-    // implementar
     public boolean jaAvaliou(int idUsuario, int idResposta) throws Exception {
-        return false;
+        return (arqAvaliacao.buscarPorUsuarioEResposta(idUsuario, idResposta) != null);
     }
 
-    // implementar
     public ArrayList<Avaliacao> listarPorUsuario(int idUsuario) throws Exception {
-        return new ArrayList<>();
+        return arqAvaliacao.readAllByUsuario(idUsuario);
     }
 
-    // implementar
     public boolean cancelarAvaliacao(int idAvaliacao, int idUsuarioRequisitante) throws Exception {
-        throw new UnsupportedOperationException("Implementar cancelamento de avaliação e estorno de nota");
+        Avaliacao a = arqAvaliacao.read(idAvaliacao);
+        if(a == null) return false;
+        if(a.getIdUsuario() != idUsuarioRequisitante) return false;
+
+        Resposta r = controleResposta.buscarPorId(a.getIdResposta());
+        if(r!=null) controleResposta.atualizarNotaEAvaliacoes(a.getIdResposta(), (a.isAvaliacao()? -1 : 1), -1);
+        return arqAvaliacao.delete(idAvaliacao);
     }
 
     public void close() throws Exception {
