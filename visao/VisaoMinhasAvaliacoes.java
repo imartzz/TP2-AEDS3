@@ -65,7 +65,8 @@ public class VisaoMinhasAvaliacoes {
                     System.out.printf("(%d) Resposta: %s%n", i + 1, textoResposta);
                     System.out.printf("    Seu voto: %s", tipoVoto);
                     if (r != null) {
-                        System.out.printf(" | Nota atual da resposta: %d (%d avaliações)", r.getNota(), r.getAvaliacoes());
+                        System.out.printf(" | Nota atual da resposta: %d (%d avaliações) | Respondida em %s",
+                                r.getNota(), r.getAvaliacoes(), formatarData(r.getCriacao()));
                     }
                     System.out.println("\n");
                 }
@@ -130,7 +131,7 @@ public class VisaoMinhasAvaliacoes {
                 System.out.println("------------------");
                 System.out.println(textoResposta);
                 if (r != null) {
-                    System.out.printf("Nota atual: %d (%d avaliações)%n", r.getNota(), r.getAvaliacoes());
+                    System.out.printf("Nota atual: %d (%d avaliações) | Respondida em %s%n", r.getNota(), r.getAvaliacoes(), formatarData(r.getCriacao()));
                 }
                 System.out.println();
                 System.out.println("SUA AVALIAÇÃO: " + tipoVoto);
