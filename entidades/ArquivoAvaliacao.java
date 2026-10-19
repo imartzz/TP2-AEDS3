@@ -26,26 +26,43 @@ public class ArquivoAvaliacao extends Arquivo<Avaliacao> {
         );
     }
 
-    // implementar
     @Override
     public int create(Avaliacao a) throws Exception {
-        throw new UnsupportedOperationException("Implementar inclusão de avaliação nas árvores B+");
+        int id = super.create(a);
+        a.setId(id);
+        relUsuarioAvaliacao.create(new ParIdId(a.getIdUsuario(), id));
+        relRespostaAvaliacao.create(new ParIdId(a.getIdResposta(), id));
+        return id;
     }
 
-    // implementar
     public ArrayList<Avaliacao> readAllByUsuario(int idUsuario) throws Exception {
-        throw new UnsupportedOperationException("Implementar leitura de avaliações por usuário");
+        ArrayList<Avaliacao> lista = new ArrayList<>();
+        ArrayList<ParIdId> pares = relUsuarioAvaliacao.read(new ParIdId(idUsuario, -1));
+        for(ParIdId par : pares){
+            Avaliacao a = super.read(par.getId2());
+            if (a!=null) lista.add(a);
+        }
+        return lista;
     }
 
-    // implementar
     public Avaliacao buscarPorUsuarioEResposta(int idUsuario, int idResposta) throws Exception {
+        ArrayList<ParIdId> pares = relUsuarioAvaliacao.read(new ParIdId(idUsuario, -1));
+        for(ParIdId par : pares){
+            Avaliacao a = super.read(par.getId2());
+            if(a != null && a.getIdResposta() == idResposta){
+                return a;
+            }
+        }
         return null;
     }
 
-    // implementar
     @Override
     public boolean delete(int id) throws Exception {
-        throw new UnsupportedOperationException("Implementar exclusão de avaliação nas árvores B+");
+        Avaliacao a = super.read(id);
+        if(a==null) return false;
+        relUsuarioAvaliacao.delete(new ParIdId(a.getIdUsuario(), id));
+        relRespostaAvaliacao.delete(new ParIdId(a.getIdResposta(), id));
+        return super.delete(id);
     }
 
     @Override
