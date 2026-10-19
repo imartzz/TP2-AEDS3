@@ -16,6 +16,7 @@ public class ControleAvaliacao {
         this.controleResposta = controleResposta;
     }
 
+    // valida regras (não auto-voto, não duplicado), cria a avaliação e atualiza nota da resposta (+1/-1)
     public boolean avaliar(int idUsuario, int idResposta, boolean concorda) throws Exception {
         Resposta r = controleResposta.buscarPorId(idResposta);
         if( r == null || !r.isAtiva()) return false;
@@ -28,6 +29,7 @@ public class ControleAvaliacao {
         return true;
     }
 
+    // verifica se o usuário já avaliou esta resposta
     public boolean jaAvaliou(int idUsuario, int idResposta) throws Exception {
         return (arqAvaliacao.buscarPorUsuarioEResposta(idUsuario, idResposta) != null);
     }
@@ -36,6 +38,7 @@ public class ControleAvaliacao {
         return arqAvaliacao.readAllByUsuario(idUsuario);
     }
 
+    // remove avaliação e estorna a pontuação (-1 se era positiva, +1 se era negativa)
     public boolean cancelarAvaliacao(int idAvaliacao, int idUsuarioRequisitante) throws Exception {
         Avaliacao a = arqAvaliacao.read(idAvaliacao);
         if(a == null) return false;

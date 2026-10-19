@@ -26,6 +26,7 @@ public class ArquivoAvaliacao extends Arquivo<Avaliacao> {
         );
     }
 
+    // grava o registro no arquivo e indexa nas duas Árvores B+
     @Override
     public int create(Avaliacao a) throws Exception {
         int id = super.create(a);
@@ -35,6 +36,7 @@ public class ArquivoAvaliacao extends Arquivo<Avaliacao> {
         return id;
     }
 
+    // recupera todas as avaliações do usuário pela Árvore B+
     public ArrayList<Avaliacao> readAllByUsuario(int idUsuario) throws Exception {
         ArrayList<Avaliacao> lista = new ArrayList<>();
         ArrayList<ParIdId> pares = relUsuarioAvaliacao.read(new ParIdId(idUsuario, -1));
@@ -45,6 +47,7 @@ public class ArquivoAvaliacao extends Arquivo<Avaliacao> {
         return lista;
     }
 
+    // busca se o usuário já avaliou a resposta para evitar voto duplicado
     public Avaliacao buscarPorUsuarioEResposta(int idUsuario, int idResposta) throws Exception {
         ArrayList<ParIdId> pares = relUsuarioAvaliacao.read(new ParIdId(idUsuario, -1));
         for(ParIdId par : pares){
@@ -56,6 +59,7 @@ public class ArquivoAvaliacao extends Arquivo<Avaliacao> {
         return null;
     }
 
+    // remove do arquivo e desindexa das duas Árvores B+
     @Override
     public boolean delete(int id) throws Exception {
         Avaliacao a = super.read(id);
