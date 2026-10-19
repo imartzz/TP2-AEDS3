@@ -1,6 +1,10 @@
 package entidades;
 
 import aed3.InterfaceRegistro;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class Avaliacao implements InterfaceRegistro {
 
@@ -32,15 +36,27 @@ public class Avaliacao implements InterfaceRegistro {
     public boolean isAvaliacao()                   { return avaliacao; }
     public void    setAvaliacao(boolean avaliacao) { this.avaliacao = avaliacao; }
 
-    // implementar
     @Override
     public byte[] serialize() throws Exception {
-        throw new UnsupportedOperationException("Implementar serialização da Avaliação");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
+
+        dos.writeInt(id);
+        dos.writeInt(idUsuario);
+        dos.writeInt(idResposta);
+        dos.writeBoolean(avaliacao);
+
+        return baos.toByteArray();
     }
 
-    // implementar
     @Override
     public void deserialize(byte[] data) throws Exception {
-        throw new UnsupportedOperationException("Implementar desserialização da Avaliação");
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
+
+        id = dis.readInt();
+        idUsuario = dis.readInt();
+        idResposta = dis.readInt();
+        avaliacao = dis.readBoolean();
     }
 }
