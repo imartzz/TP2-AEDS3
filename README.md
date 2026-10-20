@@ -17,7 +17,7 @@ Sistema de perguntas e respostas inspirado no StackOverflow, desenvolvido como s
 
 ## Vídeo de demonstração
 
-> [Link do vídeo de demonstração no YouTube - A ser gravado/adicionado]
+> 📹 **Vídeo de Demonstração (YouTube):** [https://www.youtube.com/watch?v=GdCLXRV7D58](https://www.youtube.com/watch?v=GdCLXRV7D58)
 
 ---
 
